@@ -58,7 +58,11 @@ namespace BrowserHistoryGatherer.Gathering
             
             foreach (string dbPath in _firefoxDatabasePaths)
             {
-                DataTable historyDt = SqlUtils.QueryDataTable(dbPath, query);
+                string path = dbPath;
+                string file = Path.GetFileNameWithoutExtension(path);
+                string newPath = path.Replace(file, file + "copy");
+                File.Copy(dbPath, newPath, true);
+                DataTable historyDt = SqlUtils.QueryDataTable(newPath, query);
 
                 foreach (DataRow row in historyDt.Rows)
                 {
