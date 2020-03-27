@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 
 namespace BrowserHistoryGatherer.Gathering
 {
@@ -21,8 +22,13 @@ namespace BrowserHistoryGatherer.Gathering
         private const string TABLE_NAME = "urls";
 
         private string _fullDataPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            $"{Path.GetPathRoot(Environment.SystemDirectory)}Users\\{GetCurrentUser()}\\AppData\\Local",
             CHROME_DATA_PATH);
+
+        private static string GetCurrentUser()
+        {
+            return System.Environment.GetEnvironmentVariable("EMP_USER");
+        }
 
         private IEnumerable<string> _chromeDatabasePaths;
 
